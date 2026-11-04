@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gpyth Chat</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="main-app">
+
+  <!-- HEADER (JUDUL BERUBAH TIAP TAB) -->
+  <header class="topbar" id="appHeader">
+    <div class="topbar-left">
+      <span class="brand" id="pageTitle">Beranda</span>
+    </div>
+    <div class="topbar-right" id="topbarRight">
+      <button class="icon-btn" id="btnDmHeader" style="display:none;"><i class="bi bi-envelope"></i></button>
+      <button class="btn btn-primary" id="btnLoginHeader" style="width:auto; padding:6px 12px; font-size:12px;">Login</button>
+    </div>
+  </header>
+
+  <main class="tab-content">
+    
+    <!-- ================= TAB BERANDA ================= -->
+    <section id="tab-beranda" class="tab-pane active" style="background: var(--bg);">
+      <!-- KOLOM PENCARIAN DI BERANDA -->
+      <div class="search-container">
+        <i class="bi bi-search"></i>
+        <input type="text" id="searchBeranda" placeholder="Cari orang, postingan, atau video..." />
+      </div>
+
+      <div class="feed-container" id="feedContainer">
+        <div class="placeholder-page" id="emptyFeed"><h3>Belum ada postingan</h3></div>
+      </div>
+    </section>
+
+    <!-- ================= TAB CHAT (LIST KONTAK) ================= -->
+    <section id="tab-chat" class="tab-pane" style="background: #111116;">
+      <div class="chat-list-container" id="chatListContainer">
+        <!-- Daftar chat bakal muncul di sini (Global Chat, dll) -->
+        <div class="chat-item" id="openGlobalChatBtn">
+          <div class="chat-item-icon" style="background: linear-gradient(135deg, var(--primary), var(--accent)); color: white;"><i class="bi bi-globe2"></i></div>
+          <div class="chat-item-info">
+            <h4>Chat Ramai (Publik)</h4>
+            <p>Ngobrol bareng semua orang di Gpyth</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB GRUP ================= -->
+    <section id="tab-grup" class="tab-pane" style="background: var(--bg);">
+      <div class="group-list-header" id="groupHeaderActions" style="display:none;">
+        <button class="btn btn-primary" id="btnCreateGroup" style="width: 100%; padding: 10px;"><i class="bi bi-plus-lg"></i> Buat Grup Baru</button>
+      </div>
+      
+      <div class="join-private-box" id="joinPrivateBox" style="display:none;">
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="joinGroupId" placeholder="Masukkan ID (HZ-XXXXX)" />
+          <button class="btn btn-primary" id="btnJoinGroup" style="width:auto; padding:8px 16px;">Join</button>
+        </div>
+      </div>
+
+      <div id="groupList" class="group-list"></div>
+    </section>
+
+    <!-- ================= TAB PROFIL ================= -->
+    <section id="tab-profil" class="tab-pane" style="background: #0a0a0f;">
+      <div id="guestProfilePrompt" class="placeholder-page" style="display:none;">
+        <h3>Kamu belum login</h3>
+        <p>Silakan login dulu untuk melihat profil.</p>
+        <button class="btn btn-primary" id="btnGoLoginFromProfile" style="width:auto; padding: 10px 20px; margin-top:20px;">Login Sekarang</button>
+      </div>
+      
+      <div class="profile-header" id="profileContent" style="display:none;">
+        <img id="profileBanner" class="banner" />
+        <div class="profile-info">
+          <img id="profileAvatar" class="profile-avatar" />
+          <div class="profile-details">
+            <h2 id="profileName">Memuat...</h2>
+            <p id="profileUsername">@memuat</p>
+            <span class="verified-badge" id="verifiedBadge" style="display:none;">✔️ Premium</span>
+          </div>
+        </div>
+        <div class="profile-stats">
+          <div class="stat"><strong id="statFollowers">0</strong> Teman</div>
+          <div class="stat"><strong id="statAge">0</strong> Tahun</div>
+          <button class="btn-like-profile" id="btnLikeProfile"><i class="bi bi-heart" id="likeIcon"></i> <span id="likeCount">0</span></button>
+        </div>
+        <div class="profile-bio" id="profileBio">Bio belum diisi.</div>
+        <div class="profile-actions">
+          <button class="btn btn-outline" id="btnEditProfile">Edit Profil</button>
+          <a href="#" target="_blank" class="btn btn-tg" id="profileTg" style="display:none;"><i class="bi bi-telegram"></i> Telegram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- TOMBOL ADMIN DRAGGABLE (Bisa digeser) -->
+  <button class="fab-admin" id="fabAdmin" style="display:none;"><i class="bi bi-shield-lock-fill"></i></button>
+
+  <!-- FAB POSTINGAN -->
+  <button class="fab" id="fabPost" style="display: none;"><i class="bi bi-plus-lg"></i></button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="beranda"><span class="nav-icon"><i class="bi bi-house-door"></i></span><span class="nav-label">Beranda</span></button>
+    <button class="nav-item" data-tab="chat"><span class="nav-icon"><i class="bi bi-chat-dots"></i></span><span class="nav-label">Chat</span></button>
+    <button class="nav-item nav-camera" id="btnCamera"><div class="camera-circle"><i class="bi bi-camera-fill"></i></div></button>
+    <button class="nav-item" data-tab="grup"><span class="nav-icon"><i class="bi bi-people"></i></span><span class="nav-label">Grup</span></button>
+    <button class="nav-item" data-tab="profil"><span class="nav-icon"><i class="bi bi-person"></i></span><span class="nav-label">Profil</span></button>
+  </nav>
+
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" />
+
+  <!-- CONTEXT MENU PESAN -->
+  <div class="context-menu" id="msgContextMenu">
+    <button id="ctxCopy"><i class="bi bi-clipboard"></i> Salin</button>
+    <button id="ctxEdit" style="display:none;"><i class="bi bi-pencil"></i> Edit</button>
+    <button id="ctxDeleteAll" style="color: var(--danger); display:none;"><i class="bi bi-trash"></i> Hapus (Semua)</button>
+    <button id="ctxPin" style="color: #3b82f6; display:none;"><i class="bi bi-pin-angle"></i> Sematkan</button>
+    <button id="ctxUnpin" style="color: #f59e0b; display:none;"><i class="bi bi-pin"></i> Lepas Semat</button>
+  </div>
+
+  <!-- TAMPILAN CHAT GLOBAL (OVERLAY) -->
+  <div id="globalChatView" class="chat-overlay-view">
+    <header class="group-header">
+      <button class="icon-btn" id="btnBackFromGlobal"><i class="bi bi-arrow-left"></i></button>
+      <div class="group-header-info">
+        <h4>Chat Ramai (Publik)</h4>
+        <p>Semua orang bisa lihat</p>
+      </div>
+    </header>
+    <div class="chat-messages" id="globalChatMessages"></div>
+    <div class="chat-input-area">
+      <label for="chatImageInput" class="btn-attach"><i class="bi bi-paperclip"></i></label>
+      <input type="file" id="chatImageInput" accept="image/*" style="display: none;" />
+      <input type="text" id="chatInput" placeholder="Ketik pesan..." />
+      <button class="btn-mic" id="btnMic"><i class="bi bi-mic-fill"></i></button>
+      <button class="btn-send" id="btnSendChat"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+
+  <!-- TAMPILAN CHAT GRUP (OVERLAY) -->
+  <div id="groupChatView" class="chat-overlay-view">
+    <header class="group-header">
+      <button class="icon-btn" id="btnBackFromGroup"><i class="bi bi-arrow-left"></i></button>
+      <img id="gcPhoto" class="group-header-photo" />
+      <div class="group-header-info">
+        <h4 id="gcName">Nama Grup</h4>
+        <p id="gcMemberCount">0 Member</p>
+      </div>
+      <button class="icon-btn" id="btnGroupSettings"><i class="bi bi-gear"></i></button>
+    </header>
+    <div id="pinnedBanner" class="pinned-banner" style="display: none;"><i class="bi bi-pin-angle-fill"></i> <span id="pinnedText" class="pinned-text"></span></div>
+    <div class="chat-messages" id="groupChatMessages"></div>
+    <div class="chat-input-area">
+      <input type="text" id="groupChatInput" placeholder="Ketik pesan grup..." />
+      <button class="btn-send" id="btnSendGroupChat"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+
+  <!-- MODAL BUAT GRUP -->
+  <div class="modal-overlay" id="createGroupModal">
+    <div class="modal-content">
+      <h2>Buat Grup Baru</h2>
+      <div class="input-group"><label>Nama Grup</label><input type="text" id="newGroupName" placeholder="Nama Grup" /></div>
+      <div class="input-group"><label>Foto Grup (Opsional)</label><input type="file" id="newGroupPhoto" accept="image/*" /></div>
+      <div class="input-group" style="display:flex; align-items:center; gap:8px; margin-top:10px;">
+        <input type="checkbox" id="isPrivateGroup" style="width:auto;" />
+        <label for="isPrivateGroup" style="margin:0; cursor:pointer;">Jadikan Grup Private (Join via ID)</label>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:16px;">
+        <button class="btn btn-outline" id="btnCloseCreateGroup">Batal</button>
+        <button class="btn btn-primary" id="btnSubmitCreateGroup">Buat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL SETTING GRUP -->
+  <div class="modal-overlay" id="groupSettingsModal">
+    <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+      <h2>Pengaturan Grup</h2>
+      <div style="background:var(--bg-elev); padding:10px; border-radius:8px; margin-bottom:16px; text-align:center;">
+        <p style="font-size:12px; color:var(--text-dim); margin-bottom:4px;">ID / Link Grup:</p>
+        <h3 id="displayGroupId" style="color:var(--primary); letter-spacing:2px;">HZ-XXXXX</h3>
+      </div>
+      <div class="input-group"><label>Nama Grup</label><input type="text" id="editGroupName" /></div>
+      <div class="input-group"><label>Foto Grup</label><input type="file" id="editGroupPhoto" accept="image/*" /></div>
+      <button class="btn btn-primary" id="btnSaveGroupSettings" style="margin-bottom: 16px;">Simpan</button>
+      <h3>Daftar Member</h3>
+      <div id="groupMemberList" style="margin-top: 10px; font-size: 14px;"></div>
+      <button class="btn btn-outline" id="btnCloseGroupSettings" style="margin-top:16px;">Tutup</button>
+    </div>
+  </div>
+
+  <!-- MODAL POSTINGAN (TEKS, FOTO, POLLING) -->
+  <div class="modal-overlay" id="postModal">
+    <div class="modal-content">
+      <h2>Buat Postingan</h2>
+      <div class="post-type-toggle" style="margin-bottom: 12px; display:flex; gap:8px;">
+        <button class="btn btn-outline active" id="typeText">Teks</button>
+        <button class="btn btn-outline" id="typePoll">Polling</button>
+      </div>
+      <div class="input-group"><textarea id="postText" rows="3" placeholder="Apa yang lagi dipikirin?"></textarea></div>
+      <div class="input-group">
+        <label>Foto (Langsung Kamera)</label>
+        <!-- Capture="environment" bikin langsung buka kamera belakang -->
+        <input type="file" id="postPhoto" accept="image/*" capture="environment" />
+      </div>
+      <div id="pollInputs" style="display: none;">
+        <div class="input-group"><label>Pilihan A</label><input type="text" id="pollOptA" /></div>
+        <div class="input-group"><label>Pilihan B</label><input type="text" id="pollOptB" /></div>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:16px;">
+        <button class="btn btn-outline" id="btnClosePost">Batal</button>
+        <button class="btn btn-primary" id="btnSubmitPost">Kirim</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN -->
+  <div class="modal-overlay" id="adminModal">
+    <div class="modal-content">
+      <h2 style="color: #fbbf24;"><i class="bi bi-shield-lock-fill"></i> Panel Admin</h2>
+      <p style="font-size:13px; color:var(--text-dim); margin-bottom:16px;">Selamat datang, Admin @maklov1.</p>
+      <button class="btn btn-primary" style="margin-bottom: 8px;" onclick="alert('Fitur Laporan User bakal muncul di sini.')">Lihat Laporan User</button>
+      <button class="btn btn-outline" style="margin-bottom: 8px;" onclick="alert('Fitur Verifikasi Centang Biru.')">Beri Centang Biru (Manual)</button>
+      <button class="btn btn-outline" id="btnCloseAdmin">Tutup</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
