@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0d0d12" />
+  <title>Gpyth Chat — Threads</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="app-page">
+
+  <header class="topbar">
+    <div class="topbar-left">
+      <span class="brand">Gpyth</span>
+    </div>
+    <div class="topbar-right">
+      <span class="my-id" id="myId">----</span>
+      <button class="logout-btn" id="logoutBtn" title="Logout">⏻</button>
+    </div>
+  </header>
+
+  <section class="composer">
+    <textarea
+      id="postText"
+      class="composer-input"
+      placeholder="Apa yang lagi dipikirin?"
+      maxlength="280"
+      rows="2"></textarea>
+    <div class="composer-actions">
+      <button class="chip" id="pollToggle">📊 Bikin Polling</button>
+      <button class="btn-post" id="postBtn" disabled>Post</button>
+    </div>
+  </section>
+
+  <main class="feed" id="feed">
+    <div class="empty-state" id="emptyFeed" style="display:none;">
+      Belum ada postingan. Jadi yang pertama! ✨
+    </div>
+  </main>
+
+  <nav class="bottom-nav">
+    <a href="home.html" class="nav-item active">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Threads</span>
+    </a>
+    <a href="chat.html" class="nav-item">
+      <span class="nav-icon">💬</span>
+      <span class="nav-label">Chat</span>
+    </a>
+  </nav>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>

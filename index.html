@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gpyth Chat — Daftar</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="auth-page">
+
+  <div class="auth-container">
+    <div class="logo-section">
+      <div class="logo-icon">🌐</div>
+      <h1 class="logo-title">Gpyth Chat</h1>
+      <p class="logo-tagline">Sosmed barumu. Terhubung tanpa batas.</p>
+    </div>
+
+    <!-- FORM DAFTAR -->
+    <div class="auth-card" id="registerForm">
+      <h2>Buat Akun Baru</h2>
+      <p class="auth-desc">Isi data diri lu dengan benar.</p>
+
+      <div class="input-group">
+        <label>Nama Lengkap</label>
+        <input type="text" id="regName" placeholder="Misal: Budi Santoso" />
+      </div>
+
+      <div class="input-group">
+        <label>Umur</label>
+        <input type="number" id="regAge" placeholder="Misal: 20" />
+      </div>
+
+      <div class="input-group">
+        <label>Username (Huruf kecil, tanpa spasi)</label>
+        <div class="username-input">
+          <span>@</span>
+          <input type="text" id="regUsername" placeholder="budi_santoso" />
+        </div>
+      </div>
+
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="regPass" placeholder="Minimal 6 karakter" />
+      </div>
+
+      <div class="terms-check">
+        <input type="checkbox" id="agreeTos" />
+        <label for="agreeTos">Saya setuju dengan <a href="#" id="openTos">Syarat & Ketentuan</a> Gpyth Chat.</label>
+      </div>
+
+      <button class="btn btn-primary" id="btnRegister" disabled>Daftar Sekarang</button>
+      
+      <p class="switch-auth">Udah punya akun? <a href="#" id="goLogin">Masuk di sini</a></p>
+    </div>
+
+    <!-- FORM LOGIN -->
+    <div class="auth-card" id="loginForm" style="display: none;">
+      <h2>Masuk</h2>
+      <div class="input-group">
+        <label>Username</label>
+        <div class="username-input">
+          <span>@</span>
+          <input type="text" id="loginUsername" placeholder="username_lu" />
+        </div>
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" id="loginPass" placeholder="Password" />
+      </div>
+      <button class="btn btn-primary" id="btnLogin">Masuk</button>
+      <p class="switch-auth">Belum punya akun? <a href="#" id="goRegister">Daftar di sini</a></p>
+    </div>
+  </div>
+
+  <!-- MODAL SYARAT & KETENTUAN -->
+  <div class="modal-overlay" id="tosModal">
+    <div class="modal-content">
+      <h2>📜 Syarat & Ketentuan</h2>
+      <div class="tos-text">
+        <p><strong>1. Ketentuan Umum:</strong> Pengguna wajib berusia minimal 13 tahun. Dilarang menggunakan data palsu yang merugikan pihak lain.</p>
+        <p><strong>2. Larangan Konten:</strong> Dilarang keras mengirim pesan/status/grup yang mengandung SARA, pornografi, perjudian, penipuan (scam), spam, atau aktivitas ilegal.</p>
+        <p><strong>3. Privasi:</strong> Harap berhati-hati membagikan data pribadi di chat publik.</p>
+        <p><strong>4. Tindakan Admin:</strong> Admin berhak memblokir akun permanen jika melanggar aturan.</p>
+        <p><strong>5. Akun Premium:</strong> Pembelian centang biru/premium via Telegram Admin <strong>@maklov1</strong>.</p>
+      </div>
+      <button class="btn btn-primary" id="closeTos">Saya Mengerti & Setuju</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
