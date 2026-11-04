@@ -5,7 +5,7 @@
 
 export const firebaseConfig = {
   apiKey: "AIzaSyCqKxhxy1-i-tMopV9TOu_w1qE9PTf6AqE",
-  authDomain: "https://aldonapitupulumakl-png.github.io/gpyth-chat/",
+  authDomain: "mhszksp.firebaseapp.com",
   projectId: "mhszksp",
   storageBucket: "mhszksp.firebasestorage.app",
   messagingSenderId: "1003892042214",
