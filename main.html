@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gpyth Chat</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="main-app">
+
+  <header class="topbar" id="appHeader">
+    <div class="topbar-left">
+      <span class="brand" id="pageTitle">Beranda</span>
+    </div>
+    <div class="topbar-right" id="topbarRight">
+      <!-- Tombol khusus Admin -->
+      <button class="icon-btn" id="btnAdminDashboard" style="display:none; color: #fbbf24;"><i class="bi bi-shield-lock-fill"></i></button>
+      <button class="icon-btn" id="btnSearch"><i class="bi bi-search"></i></button>
+      <button class="btn btn-primary" id="btnLoginHeader" style="width:auto; padding:6px 12px; font-size:12px;">Login</button>
+    </div>
+  </header>
+
+  <main class="tab-content">
+    
+    <!-- ================= TAB BERANDA (THREADS STYLE) ================= -->
+    <section id="tab-beranda" class="tab-pane active">
+      
+      <!-- Story Bar (Khusus Premium) -->
+      <div class="story-bar" id="storyBar">
+        <div class="story-item add-story" id="btnAddStory">
+          <div class="story-avatar"><i class="bi bi-plus"></i></div>
+          <span>Story</span>
+        </div>
+        <!-- Story orang lain bakal muncul di sini -->
+      </div>
+
+      <div class="feed-container" id="feedContainer">
+        <div class="placeholder-page" id="emptyFeed"><h3>Belum ada postingan</h3></div>
+      </div>
+    </section>
+
+    <!-- ================= TAB CHAT (TELEGRAM STYLE) ================= -->
+    <section id="tab-chat" class="tab-pane">
+      <div class="search-container" style="margin: 10px 16px;">
+        <i class="bi bi-search"></i>
+        <input type="text" placeholder="Cari pesan atau kontak..." />
+      </div>
+      <div class="chat-list-container" id="chatListContainer">
+        <!-- HZCS (Official Bot) -->
+        <div class="chat-item" id="openHzcsChatBtn">
+          <div class="chat-item-avatar" style="background: #3b82f6;"><i class="bi bi-robot"></i></div>
+          <div class="chat-item-info">
+            <div class="chat-item-top"><h4>HZCS (Official)</h4> <span class="chat-time">Sistem</span></div>
+            <p>Pusat bantuan & informasi Gpyth Chat.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= TAB GRUP ================= -->
+    <section id="tab-grup" class="tab-pane">
+      <div class="group-list-header" id="groupHeaderActions" style="display:none; padding: 10px 16px;">
+        <button class="btn btn-primary" id="btnCreateGroup" style="width: 100%; padding: 10px;"><i class="bi bi-plus-lg"></i> Buat Grup Baru</button>
+      </div>
+      <div class="join-private-box" id="joinPrivateBox" style="display:none; margin: 0 16px 16px;">
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="joinGroupId" placeholder="Masukkan ID (HZ-XXXXX)" />
+          <button class="btn btn-primary" id="btnJoinGroup" style="width:auto; padding:8px 16px;">Join</button>
+        </div>
+      </div>
+      <div id="groupList" class="group-list"></div>
+    </section>
+
+    <!-- ================= TAB PROFIL (TELEGRAM STYLE) ================= -->
+    <section id="tab-profil" class="tab-pane" style="background: #111116;">
+      <div id="guestProfilePrompt" class="placeholder-page" style="display:none; margin-top: 50px;">
+        <h3>Kamu belum login</h3>
+        <p>Silakan login dulu untuk melihat profil.</p>
+        <button class="btn btn-primary" id="btnGoLoginFromProfile" style="width:auto; padding: 10px 20px; margin-top:20px;">Login Sekarang</button>
+      </div>
+      
+      <div class="tg-profile" id="profileContent" style="display:none;">
+        <!-- Banner di Belakang -->
+        <div class="tg-banner" id="profileBanner"></div>
+        
+        <div class="tg-profile-data">
+          <img id="profileAvatar" class="tg-avatar" src="https://via.placeholder.com/100" />
+          
+          <div class="tg-info">
+            <h2 id="profileName">Memuat...</h2>
+            <p id="profileUsername">@memuat</p>
+            <span class="tg-badge" id="verifiedBadge" style="display:none;"><i class="bi bi-patch-check-fill"></i> Premium</span>
+            
+            <div class="tg-stats">
+              <div><strong id="statFollowers">0</strong> Pengikut</div>
+              <div><strong id="statFollowing">0</strong> Mengikuti</div>
+              <div><strong id="statAge">0</strong> Tahun</div>
+            </div>
+
+            <!-- Bio ala Instagram -->
+            <div class="ig-bio">
+              <p id="profileBio">Bio belum diisi.</p>
+              <a href="#" target="_blank" class="ig-link" id="profileTg" style="display:none;"><i class="bi bi-telegram"></i> @telegram_lu</a>
+            </div>
+
+            <div class="tg-actions">
+              <button class="btn btn-outline" id="btnEditProfile" style="padding: 10px;">Edit Profil</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FAB POSTINGAN (Threads Style) -->
+  <button class="fab" id="fabPost" style="display: none;"><i class="bi bi-plus-lg"></i></button>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" data-tab="beranda"><span class="nav-icon"><i class="bi bi-house-door"></i></span></button>
+    <button class="nav-item" data-tab="chat"><span class="nav-icon"><i class="bi bi-chat-dots"></i></span></button>
+    <button class="nav-item nav-camera" id="btnCamera"><div class="camera-circle"><i class="bi bi-camera-fill"></i></div></button>
+    <button class="nav-item" data-tab="grup"><span class="nav-icon"><i class="bi bi-people"></i></span></button>
+    <button class="nav-item" data-tab="profil"><span class="nav-icon"><i class="bi bi-person"></i></span></button>
+  </nav>
+
+  <input type="file" id="cameraInput" accept="image/*" capture="environment" style="display: none;" />
+
+  <!-- ================= MODAL CHAT DM (TELEGRAM) ================= -->
+  <div id="dmChatView" class="chat-overlay-view">
+    <header class="group-header">
+      <button class="icon-btn" id="btnBackFromDm"><i class="bi bi-arrow-left"></i></button>
+      <img id="dmPhoto" class="group-header-photo" />
+      <div class="group-header-info">
+        <h4 id="dmName">Memuat...</h4>
+        <p id="dmStatus">Online</p>
+      </div>
+    </header>
+    <div class="chat-messages" id="dmChatMessages"></div>
+    <div class="chat-input-area">
+      <input type="text" id="dmChatInput" placeholder="Ketik pesan..." />
+      <button class="btn-send" id="btnSendDmChat"><i class="bi bi-send-fill"></i></button>
+    </div>
+  </div>
+
+  <!-- MODAL POSTINGAN (THREADS STYLE) -->
+  <div class="modal-overlay" id="postModal">
+    <div class="modal-content" style="background: var(--bg-card);">
+      <h2>Posting Baru</h2>
+      <div class="input-group"><textarea id="postText" rows="3" placeholder="Apa yang lagi dipikirin?"></textarea></div>
+      <div class="input-group">
+        <label>Foto (Opsional)</label>
+        <input type="file" id="postPhoto" accept="image/*" />
+      </div>
+      <div style="display:flex; gap:8px; margin-top:16px;">
+        <button class="btn btn-outline" id="btnClosePost">Batal</button>
+        <button class="btn btn-primary" id="btnSubmitPost">Posting</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT PROFIL -->
+  <div class="modal-overlay" id="editProfileModal">
+    <div class="modal-content" style="max-height: 80vh; overflow-y: auto;">
+      <h2>Edit Profil</h2>
+      <div class="input-group"><label>Foto Profil</label><input type="file" id="editAvatar" accept="image/*" /></div>
+      <div class="input-group"><label>Banner (Premium)</label><input type="file" id="editBanner" accept="image/*" /></div>
+      <div class="input-group"><label>Nama</label><input type="text" id="editName" /></div>
+      <div class="input-group"><label>Bio (Instagram Style)</label><textarea id="editBio" rows="3"></textarea></div>
+      <div class="input-group"><label>Link Telegram</label><input type="text" id="editTg" placeholder="@maklov1" /></div>
+      <div class="input-group" style="background: rgba(251,191,36,0.1); padding: 10px; border-radius: 8px; border: 1px dashed #fbbf24; margin-top:10px;">
+        <label style="color: #fbbf24;"><i class="bi bi-star-fill"></i> Pengaturan Premium</label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; margin-top: 8px;">
+          <input type="checkbox" id="editPremium" style="width: auto;" /> Aktifkan Status Premium
+        </label>
+      </div>
+      <div style="display:flex; gap:8px; margin-top:16px;">
+        <button class="btn btn-outline" id="btnCloseEdit">Batal</button>
+        <button class="btn btn-primary" id="btnSaveProfile">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL ADMIN DASHBOARD -->
+  <div class="modal-overlay" id="adminDashboardModal">
+    <div class="modal-content" style="max-width: 500px;">
+      <h2 style="color:#fbbf24;"><i class="bi bi-shield-lock-fill"></i> Admin Dashboard</h2>
+      <p style="font-size:12px; color:var(--text-dim); margin-bottom:16px;">Selamat bekerja, Admin.</p>
+      
+      <div style="display:flex; flex-direction:column; gap:8px;">
+        <button class="btn btn-outline" onclick="alert('Fitur Laporan akan segera hadir.')"><i class="bi bi-flag"></i> Lihat Laporan (0)</button>
+        <button class="btn btn-outline" id="btnPromoteUserModal"><i class="bi bi-person-plus"></i> Promosikan User Jadi Admin</button>
+        
+        <div style="background:var(--bg-elev); padding:10px; border-radius:8px; margin-top:10px;">
+          <h4 style="font-size:14px; margin-bottom:8px;">Balas sebagai HZCS</h4>
+          <input type="text" id="adminReplyTarget" placeholder="Username target (tanpa @)" style="width:100%; padding:8px; margin-bottom:8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-card); color:white;" />
+          <textarea id="adminReplyText" placeholder="Pesan balasan HZCS..." style="width:100%; padding:8px; margin-bottom:8px; border-radius:6px; border:1px solid var(--border); background:var(--bg-card); color:white; height:60px;"></textarea>
+          <button class="btn btn-primary" id="btnSendHzcsReply">Kirim Balasan</button>
+        </div>
+      </div>
+      <button class="btn btn-outline" id="btnCloseAdmin" style="margin-top:16px;">Tutup</button>
+    </div>
+  </div>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
